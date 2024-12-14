@@ -1,0 +1,32 @@
+name: Example2
+on:
+  workflow_run:
+    workflows: ["Example"]
+    types:
+      - completed
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run job 1
+        run: |
+          echo 'Job 1 running'
+          sleep 5
+          echo 'Job 1 finished'
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run job 2
+        run: |
+          echo 'Job 2 running'
+          sleep 10
+          echo 'Job 2 finished'
+
+  job3:
+    runs-on: ubuntu-latest
+    needs: [job1, job2] # Wait for completion of job1 and job2
+    steps:
+      - name: Run job 3
+        run: echo 'Job 3 running after jobs job 1 and job 2'
